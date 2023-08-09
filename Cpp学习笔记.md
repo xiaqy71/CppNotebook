@@ -167,3 +167,104 @@ int main()
 + sizeof()计算时的结果不同
 + 指针是实体需要分配内存空间；引用只是变量的别名 无需分配内存空间
 
+### 函数重载
+
++ c++ 允许在同一个作用域中的某个函数（函数重载）和运算符指定多个定义
++ 在同一个作用域内可以声明几个功能类似的同名函数，但是这些同名函数的形式参数（个数、类型、顺序）必须不同。
++ 调用一个重载函数或重载运算符时，编译器通过把你所使用的参数类型与定义中的参数类型进行比较，决定选用最合适的定义。选择最合适的重载函数或重载运算符的过程，称为重载决策。
+
+```cpp
+#include <iostream>
+#include <vector>
+using namespace std;
+
+void test(int a, int b)
+{
+    cout << "int" << " " << "int" << endl;
+}
+
+void test(int a, int b, int c = 3)
+{
+    cout << "int" << " " << "int" << " " << "int" << endl;
+}
+
+void test(double a, double b)
+{
+    cout << "double" << " " << "double" << endl;
+}
+
+void test(int a, double b)
+{
+    cout << "double" << " " << "int" << endl;
+}
+
+void test(double a, int b)
+{
+    cout << "double" << " " << "int" << endl;
+}
+
+int main() {
+    //test(3, 4); 函数参数默认值导致了二义性问题，编译器不知道调用哪个函数
+    test(1.1, 1.1);
+    test(1, 1.1);
+    test(1, 1, 1);
+    test(1, 1, 1);
+
+    return 0;
+}
+```
+
+函数参数从右往左入栈
+
+#### 函数默认参数
+
+```cpp
+#include <iostream>
+#include <vector>
+using namespace std;
+
+void fun0(int t, int a = 2, int b = 3) // 可以只传前两个值，此时a不再等于默认值，会输出实参的值a=1
+{
+    cout << a << " " << b;
+}
+
+void fun1(int t, int a, int b = 3) // 报错，默认实参不在形参列表的结尾
+{
+    cout << a << b;
+}
+
+int main() {
+    fun0(1, 1);
+    return 0;
+}
+```
+
+### vector类
+
+#### 一维数组
+
+```cpp
+Constructors 构造函数
+vector();
+vector(size_type num, const TYPE &val);
+vector(const vector &from);
+Operators 对vector进行赋值或比较：vectors之间大小的比较是按照词典规则
+v1 = v2
+v1 != v2
+v1 <= v1
+v1 >= v2
+v1 < v2
+v1 > v2
+v[]
+back() 返回最末一个元素
+capacity() 返回vector所能容纳的元素数量（在不重新分配内存的情况下）
+clear() 清空所有元素
+empty() 判断vector是否为空（返回true为空）
+front() 返回第一个元素
+pop_back() 移除最后一个元素
+resize() 改变vector元素数量的大小
+size() 返回vector元素数量的大小
+swap() 交换两个vector
+```
+
+[ ]只能修改不能插入
