@@ -241,6 +241,8 @@ int main() {
 
 ### vector类
 
+需要包含头文件`<vector>`
+
 #### 一维数组
 
 ```cpp
@@ -268,3 +270,48 @@ swap() 交换两个vector
 ```
 
 [ ]只能修改不能插入
+
+#### 二维数组
+
+##### 二维数组创建
+
+```cpp
+vector<vector<int>> vec;
+```
+
+##### 初始化
+
+```cpp
+vector<vector<int>> vec = {
+        {1, 2, 3},
+        {4, 5, 6},
+        {7, 8, 9}
+    };
+```
+
+##### 追加元素
+
+行尾追加元素
+
+```cpp
+vec[1].push_back(111);
+```
+
+追加一维数组
+
+```cpp
+vec.push_back({7,8,9});
+```
+
+##### 遍历二维数组
+
+增强for循环
+
+```cpp
+for(auto it:vec){
+    for(auto its:it){
+        cout << its << " ";
+    }
+    cout << endl;
+}
+```
