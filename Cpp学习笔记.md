@@ -1,4 +1,4 @@
-# 笔记
+# 课堂笔记
 
 ## 输入输出流
 
@@ -45,32 +45,13 @@ int main() {
 }
 ```
 
-## 文字版Q宠大乐斗
-
-Weapon.h
-
-```cpp
-```
-
-Hero.h
-
-```cpp
-
-```
-
-main.cpp
-
-```cpp
-
-```
-
 ## 引用
 
 ### 基本概念
 
 定义：引用是为已存在的变量取了一个别名，引用和引用的变量共用同一块内存空间
 
-用法：类型&应用变量名 = 引用实体
+用法：类型&引用变量名 = 引用实体
 
 ```cpp
 int b = 1;
@@ -85,7 +66,7 @@ b为已经存在的变量,a为b的引用，引用是用指针实现的。
 
 + 引用实体和引用类型必须为同种类型
 + 引用在定义时必须初始化并且不能被初始化为NULL
-+ 不可以改变引用关系
++ 不可以改变引用关系：因为其底层是const指针实现的
 
 ### 引用的用法
 
@@ -104,7 +85,6 @@ int main()
     const int&c = a; //表示不可用通过c修改a
     return 0;
 }
-
 ```
 
 #### 参数与引用
@@ -171,7 +151,7 @@ int main()
 
 + c++ 允许在同一个作用域中的某个函数（函数重载）和运算符指定多个定义
 + 在同一个作用域内可以声明几个功能类似的同名函数，但是这些同名函数的形式参数（个数、类型、顺序）必须不同。
-+ 调用一个重载函数或重载运算符时，编译器通过把你所使用的参数类型与定义中的参数类型进行比较，决定选用最合适的定义。选择最合适的重载函数或重载运算符的过程，称为重载决策。
++ 调用一个重载函数或重载运算符时，编译器在编译阶段通过把你所使用的参数类型与定义中的参数类型进行比较，决定选用最合适的定义。选择最合适的重载函数或重载运算符的过程，称为重载决策。
 
 ```cpp
 #include <iostream>
@@ -271,6 +251,7 @@ swap() 交换两个vector
 
 [ ]只能修改不能插入
 
+> 插入元素，容量会被扩大为1.5倍或2倍（msvc中是1.5倍）
 #### 二维数组
 
 ##### 二维数组创建
@@ -313,5 +294,188 @@ for(auto it:vec){
         cout << its << " ";
     }
     cout << endl;
+}
+```
+
+
+### 类
+
+访问权限：
+
++ protected 类内和子类可以访问
++ public 类外也可访问
++ private 类内访问
+
+#### 类和结构体的区别
+
+类的默认访问权限是private，结构体是public
+#### 对象
+
+```cpp
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+class people
+{
+public:
+    // 属性
+    string name = "刘";
+    int age = 10;
+
+    // 行为
+
+    void eat()
+    {
+        cout << "吃饭" << endl;
+    }
+
+    // 成员函数在类内声明，类外实现
+    void study();
+};
+
+void people::study()
+{
+    cout << "学习" << endl;
+}
+
+int main()
+{
+    people p;
+    cout << p.name << endl;
+    cout << p.age << endl;
+    p.eat();
+    p.study();
+}
+```
+
+#### 构造函数
+
+```c++
+#include <iostream>
+
+#include <vector>
+
+#include <string>
+
+using namespace std;
+class A
+
+{
+
+private:
+
+    int val;
+    int *p = nullptr;
+
+public:
+	//无参构造
+    A(){};
+    A(int val);
+    ~A();
+};
+
+  
+//构造函数
+A::A(int val)
+
+{
+    this->val = val;
+}
+```
+
+#### 析构函数
+
+```c++
+A::~A()
+
+{
+    delete p;
+}
+```
+
+#### this指针
+
+一个对象的this指针并不是对象本身的一部分，不会影响sizeof(对象)的结果。this作用域是在类内部，当在类的非静态成员函数中访问类的非静态成员的时候，编译器会自动将对象本身的地址作为一个隐含参数传递给函数。
+
+> this指针一般存在栈区或寄存器（由编译器决定）
+
+```c++
+A::A(int val)
+{
+    this->val = val;
+}
+```
+
+#### new和malloc的区别
+
++ new是运算符 malloc是库函数
++ new无需强制转换
++ new可以对所得的内存进行初始化
++ delete会调用析构函数，free不会调用析构函数
++ new/delete可以重载
++ new分配内存失败时会抛出异常，malloc分配失败会返回null
+#### new malloc 和 free delete 可以混合使用吗
+
++ 对于基本类型而言，没有区别。根据需要new和malloc可以混用，new[]和malloc可以混用，delete、delete[]和free可以混用
++ 对于构造函数没有作用的类，new和malloc可以混用
++ 对于没有显式定义析构函数的类，delete[]和new[]必须配套使用，delete和free如果想混用，free需要显式调用析构函数
+
+#### 优先队列
+
+```cpp
+priority_queue<int, vector<int>,greater<int>> q1;//默认为最大堆结构 greater为最小堆
+/*
+int：表示优先级队列中存放int类型的元素
+vector<int>表示优先级队列由数组模拟
+greater<int>表示优先级队列为最小堆
+less<int>表示优先级队列为最大堆
+*/
+q1.pop();//弹出队首元素
+q1.top();//返回队首元素
+q1.push(3);//向队尾追加元素
+```
+
+#### 比较器
+
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class A
+{
+public:
+    int a;
+    A(int a);
+};
+
+//函数比较器
+bool cmp(cosnt A&a, const A&b)
+{
+	return a.a < b.a;
+}
+
+//结构体对象比较器
+struct CMP
+{
+    bool operator() (vector<int>& a, vector<int>& b)
+    {
+        return a[0] < b[0];
+    }
+};
+
+int main()
+{
+    vector<A>vec = { A(3),A(2),A(1) };
+    //sort(vec.begin(), vec.end(), cmp);
+    sort(vec.begin(),vec.end(),CMP());
+    for (auto it : vec)
+    {
+        cout << it.a << " ";
+    }
 }
 ```
