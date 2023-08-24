@@ -479,3 +479,90 @@ int main()
     }
 }
 ```
+
+#### 继承
+
+##### 继承语法
+
+```cpp
+#include <iostream>
+#include <string>
+using namespace std;
+
+class father
+{
+    private:
+        int pri;
+    protected:
+        int pro;
+    public:
+        int pub;
+        void fun() {cout << "fun()" << endl;};
+        void eat() {cout << "eat()" << endl;};
+};
+
+class son:public father
+{
+    void work()
+    {
+        //pri = 1;//父类私有成员不能在子类中访问
+        pro = 1;
+        pub = 1;
+    }
+}
+
+int main()
+{
+    son s;
+    s.pub();
+    s.fun();
+    s.eat();
+    s.work();
+}
+
+```
+
+##### 继承方式
+
++ 凡是基类中私有的，派生类都不可以访问
++ 基类中除了私有的成员，其他成员在派生类中的访问属性总是以（继承方式，基类的访问属性）中安全性高的方式呈现。（安全性级别：私有>保护>公有）
+
+```cpp
+#include<iostream>
+#include<string>
+using namespace std;
+
+class father
+{
+    public:
+        int pub;
+    protected:
+        int pro;
+    private:
+        int pri;
+};
+
+class son:private father{
+    void fun()
+    {
+        pri = 1;
+        pro = 1;
+        pub = 1;
+    }
+}
+
+class grandson:public son
+{
+    void fun(){
+        pub = 1;
+        pro = 1;
+    }
+}
+
+int main()
+{
+    son s;
+    s.pub = 1;
+    return 0;
+}
+````
